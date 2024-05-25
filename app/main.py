@@ -9,7 +9,7 @@ app = FastAPI()
 class ImageRequest(BaseModel):
     urls: List[HttpUrl]
 
-@app.post("/process-images/")
+@app.post("/process-images/", summary="Process Image URLs", description="This endpoint accepts a list of image URLs and returns a list of processed image URLs with a random delay of 3 to 10 seconds.")
 async def process_images(request: ImageRequest):
     # Introduce a random delay between 3 to 10 seconds
     delay = random.randint(3, 10)
