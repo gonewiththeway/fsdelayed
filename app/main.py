@@ -22,7 +22,7 @@ async def process_images(request: ImageRequest):
     - **urls**: A list of image URLs to be processed.
     """
     # Introduce a random delay between 3 to 10 seconds
-    delay = random.randint(3, 5)
+    delay = random.randint(3, 10)
     time.sleep(delay)
 
     # List all images in the images directory
