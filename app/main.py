@@ -9,17 +9,19 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
 class ImageRequest(BaseModel):
-    urls: List[HttpUrl]
+    target_urls: List[HttpUrl]
+    source_url: HttpUrl
 
 # Mount the images directory to serve images
 app.mount("/images", StaticFiles(directory="app/images"), name="images")
 
-@app.post("/process-images/", summary="Process Image URLs", description="This endpoint accepts a list of image URLs and returns a list of processed image URLs with a random delay of 3 to 10 seconds.")
+@app.post("/process-images/", summary="Process Image URLs", description="This endpoint accepts a list of target image URLs and a source image URL and returns a list of processed image URLs with a random delay of 3 to 10 seconds.")
 async def process_images(request: ImageRequest):
     """
-    Process a list of image URLs.
+    Process a list of target image URLs and a source image URL.
 
-    - **urls**: A list of image URLs to be processed.
+    - **target_urls**: A list of target image URLs to be processed.
+    - **source_url**: A source image URL.
     """
     # Introduce a random delay between 3 to 10 seconds
     delay = random.randint(3, 10)
@@ -35,7 +37,7 @@ async def process_images(request: ImageRequest):
 
     # Generate URLs for the images
     server_url = "https://fsdelayed.onrender.com"
-    processed_urls = [f"{server_url}/images/{image_files[i % len(image_files)]}" for i in range(len(request.urls))]
+    processed_urls = [f"{server_url}/images/{image_files[i % len(image_files)]}" for i in range(len(request.target_urls))]
 
     return {"processed_urls": processed_urls}
 
